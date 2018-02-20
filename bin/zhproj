@@ -1,0 +1,13 @@
+#!/bin/bash
+
+function create_tabbed {
+	tmp_tabbed_file=`date +%s | sha256sum | base64 | head -c 32 ; echo`;
+	tmp_tabbed_file="/tmp/tabbed.$tmp_tabbed_file";
+	tabbed -c -d >$tmp_tabbed_file;
+	export ZHPROJ_TABS=`cat $tmp_tabbed_file`;
+	rm $tmp_tabbed_file;
+}
+
+create_tabbed
+xterm -T 'VP' -fa 'Monospace' -fs 11  -into $ZHPROJ_TABS -e "bash" &
+
